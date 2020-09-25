@@ -90,7 +90,7 @@ if __name__=='__main__':
     #videoPath = "v4l2src device=/dev/video1 ! video/x-raw, width=640, height=480, format=(string)YUY2,framerate=30/1 ! videoconvert ! video/x-raw,width=640,height=480,format=BGR ! appsink"
     
     videoPath = "challenge.mp4"
-    
+    videoPath = "video_01.avi"
     #config = "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
     #config = "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"
     config = "COCO-PanopticSegmentation/panoptic_fpn_R_50_3x.yaml"
