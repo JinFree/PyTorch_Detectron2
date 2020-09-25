@@ -25,7 +25,7 @@ def frameProcessing(im, predictor, Visualizer, cfg):
     print(tick1 - tick0, tick2 - tick1)
     return cv_bgr
 
-def Video(openpath, savepath = None):
+def Video(openpath, config, savepath = None):
     cap = cv2.VideoCapture(openpath)
     if cap.isOpened():
         print("Video Opened")
@@ -35,10 +35,10 @@ def Video(openpath, savepath = None):
         exit()
     cfg = get_cfg()
     # add project-specific config (e.g., TensorMask) here if you're not running a model in detectron2's core library
-    cfg.merge_from_file(model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"))
+    cfg.merge_from_file(model_zoo.get_config_file(config))
     cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set threshold for this model
     # Find a model from detectron2's model zoo. You can use the https://dl.fbaipublicfiles... url as well
-    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url("COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml")
+    cfg.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(config)
     predictor = DefaultPredictor(cfg)
 
     fps = cap.get(cv2.CAP_PROP_FPS)
@@ -76,8 +76,8 @@ def Video(openpath, savepath = None):
     cv2.destroyAllWindows()
     return
 
-def main(VideoPath):
-    Video(VideoPath)    
+def main(VideoPath, config):
+    Video(VideoPath, config)    
     
 if __name__=='__main__':
     ## TX2_ONBOARD_CAMERA
@@ -87,7 +87,11 @@ if __name__=='__main__':
     #videoPath = "v4l2src device=/dev/video1 ! video/x-raw, width=640, height=480, format=(string)YUY2,framerate=30/1 ! videoconvert ! video/x-raw,width=640,height=480,format=BGR ! appsink"
     
     videoPath = "challenge.mp4"
-    main(videoPath)
+    
+    #config = "COCO-Detection/faster_rcnn_R_50_FPN_3x.yaml"
+    #config = "COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml"
+    config = "COCO-PanopticSegmentation/panoptic_fpn_R_50_3x.yaml"
+    main(videoPath, config)
     
     
     
